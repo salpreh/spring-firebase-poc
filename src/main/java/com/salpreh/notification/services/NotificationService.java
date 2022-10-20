@@ -26,6 +26,7 @@ public class NotificationService {
 
     public boolean subscribeDevice(String deviceId, String topic) {
         try {
+            devicesRepository.addDevice(deviceId);
             var res = messaging.subscribeToTopic(List.of(deviceId), topic);
 
             if (!res.getErrors().isEmpty()) {
@@ -41,7 +42,7 @@ public class NotificationService {
     }
 
     public Optional<String> sendNotificationToDevice(String deviceId, SendNotificationDto.Message message) {
-
+        devicesRepository.addDevice(deviceId);
         Message msg = Message.builder()
             .setToken(deviceId)
             .putData("data", "test")
